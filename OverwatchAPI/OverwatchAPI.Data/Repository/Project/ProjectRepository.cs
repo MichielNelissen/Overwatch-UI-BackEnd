@@ -1,4 +1,7 @@
-﻿using OverwatchAPI.Data.Context;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using OverwatchAPI.Data.Context;
 
 namespace OverwatchAPI.Data.Repository.Project
 {
@@ -11,29 +14,32 @@ namespace OverwatchAPI.Data.Repository.Project
             _context = context;
         }
 
-
-        public Domain.DomainClasses.Projects.Project GetById(int id)
+        public async Task<Domain.DomainClasses.Projects.Project> GetByIdAsync(int id)
         {
-            return _context.Find<Domain.DomainClasses.Projects.Project>(id);
+            return await _context.Projects.FindAsync(id);
         }
 
-        public void Put(int id, Domain.DomainClasses.Projects.Project item)
+        public async Task<int> DeleteByIdAsync(int id)
         {
-            _context.Update(item);
+            _context.Remove(GetByIdAsync(id));
+            return await _context.SaveChangesAsync();
         }
 
-        public void Add(Domain.DomainClasses.Projects.Project item)
+        public async Task<int> AddAsync(Domain.DomainClasses.Projects.Project item)
         {
-            _context.Add(item);
-            _context.SaveChanges();
+            await _context.Projects.AddAsync(item);
+            return await _context.SaveChangesAsync();
         }
 
-        public void DeleteById(int id)
+        public async Task<IEnumerable<Domain.DomainClasses.Projects.Project>> GetAllAsync()
         {
-            var itemToDelete = _context.Find<Domain.DomainClasses.Projects.Project>(id);
-            _context.Remove(itemToDelete);
+            return await _context.Projects.ToListAsync();
+        }
 
-            _context.SaveChanges();
+        public async Task<int> PutAsync(int id, Domain.DomainClasses.Projects.Project item)
+        {
+            _context.Entry(item).State = EntityState.Modified;
+            return await _context.SaveChangesAsync();
         }
     }
 }

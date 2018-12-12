@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using OverwatchAPI.Data.Context;
 
 namespace OverwatchAPI.Data.Repository.Dashboard
@@ -13,32 +15,31 @@ namespace OverwatchAPI.Data.Repository.Dashboard
         {
             _context = context;
         }
-
-        public Domain.DomainClasses.Dashboard.Dashboard GetById(int id)
+        public async Task<Domain.DomainClasses.Dashboard.Dashboard> GetByIdAsync(int id)
         {
-            return _context.Find<Domain.DomainClasses.Dashboard.Dashboard>(id);
+            return await _context.Dashboards.FindAsync(id);
+        }
+        public async Task<int> DeleteByIdAsync(int id)
+        {
+            _context.Remove(GetByIdAsync(id));
+            return await _context.SaveChangesAsync();
         }
 
-        public void Put(int id, Domain.DomainClasses.Dashboard.Dashboard item)
+        public async Task<IEnumerable<Domain.DomainClasses.Dashboard.Dashboard>> GetAllAsync()
         {
-            var itemToUpdate = _context.Find<Domain.DomainClasses.Dashboard.Dashboard>(id);
-            _context.Update(itemToUpdate);
-
-            _context.SaveChanges();
+            return await _context.Dashboards.ToListAsync();
         }
 
-        public void Add(Domain.DomainClasses.Dashboard.Dashboard item)
+        public async Task<int> AddAsync(Domain.DomainClasses.Dashboard.Dashboard item)
         {
-            _context.Add(item);
-            _context.SaveChanges();
+            await _context.Dashboards.AddAsync(item);
+            return await _context.SaveChangesAsync();
         }
 
-        public void DeleteById(int id)
+        public async Task<int> PutAsync(int id, Domain.DomainClasses.Dashboard.Dashboard item)
         {
-            var itemToDelete = _context.Find<Domain.DomainClasses.Dashboard.Dashboard>(id);
-            _context.Remove(itemToDelete);
-
-            _context.SaveChanges();
+            _context.Entry(item).State = EntityState.Modified;
+            return await _context.SaveChangesAsync();
         }
     }
 }
