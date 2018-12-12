@@ -17,7 +17,7 @@ namespace OverwatchAPI.Controllers
     {
         private readonly IWidgetRepository _widgetRepository;
 
-        public WidgetsController(IWidgetRepository widgetRepository)//OverwatchContext context)
+        public WidgetsController(IWidgetRepository widgetRepository)
         {
             _widgetRepository = widgetRepository;
         }
@@ -50,7 +50,7 @@ namespace OverwatchAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutWidget(int id, Widget widget)
         {
-            if (widget == null)
+            if (id != widget.Id)
                 return BadRequest();
 
             var result = await _widgetRepository.PutAsync(id, widget);
