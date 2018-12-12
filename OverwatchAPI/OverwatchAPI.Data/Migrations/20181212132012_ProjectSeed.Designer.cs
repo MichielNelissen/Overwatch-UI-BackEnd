@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OverwatchAPI.Data.Context;
 
 namespace OverwatchAPI.Data.Migrations
 {
     [DbContext(typeof(OverwatchContext))]
-    partial class OverwatchContextModelSnapshot : ModelSnapshot
+    [Migration("20181212132012_ProjectSeed")]
+    partial class ProjectSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,15 +37,6 @@ namespace OverwatchAPI.Data.Migrations
                     b.HasIndex("ProjectId");
 
                     b.ToTable("Dashboards");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Description = "dit is een disc",
-                            Name = "First",
-                            ProjectId = 1
-                        });
                 });
 
             modelBuilder.Entity("OverwatchAPI.Domain.DomainClasses.Projects.Project", b =>
@@ -86,43 +79,6 @@ namespace OverwatchAPI.Data.Migrations
                     b.HasIndex("DashboardId");
 
                     b.ToTable("Widgets");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Color = "Red1",
-                            DashboardId = 1,
-                            Name = "Demo11"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Color = "Red2",
-                            DashboardId = 1,
-                            Name = "Demo12"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Color = "Red3",
-                            DashboardId = 1,
-                            Name = "Demo13"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Color = "Red4",
-                            DashboardId = 1,
-                            Name = "Demo14"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Color = "Red5",
-                            DashboardId = 1,
-                            Name = "Demo15"
-                        });
                 });
 
             modelBuilder.Entity("OverwatchAPI.Domain.DomainClasses.Dashboard.Dashboard", b =>

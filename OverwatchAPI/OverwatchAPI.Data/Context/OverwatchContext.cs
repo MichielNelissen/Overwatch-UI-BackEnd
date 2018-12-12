@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using OverwatchAPI.Domain.DomainClasses.Dashboard;
@@ -17,6 +18,25 @@ namespace OverwatchAPI.Data.Context
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=OverwatchDb;Trusted_Connection=True;");
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            List<Dashboard> dashboardList = new List<Dashboard>();
+            dashboardList.Add(new Dashboard() { Id = 1, Name = "First", Description = "dit is een disc", ProjectId = 1,Widgets = null});
+
+            List<Widget> widgetList = new List<Widget>();
+            for (int i = 1; i < 6; i++)
+            {
+                widgetList.Add(new Widget() { Id = i, Color = "Red" + i, Name = "Demo1" + i, DashboardId = 1 });
+            }
+            Project project = new Project() { Id = 1, Name = "Overwatch", Url = "an url" };
+
+            modelBuilder.Entity<Project>().HasData(project);
+            modelBuilder.Entity<Dashboard>().HasData(dashboardList);
+            modelBuilder.Entity<Widget>().HasData(widgetList);
+
         }
     }
 }
