@@ -29,7 +29,11 @@ namespace OverwatchAPI.Controllers
         public async Task<ActionResult<IEnumerable<Widget>>> GetWidgets()
         {
             var widgets = await _widgetRepository.GetAllAsync();
-            return widgets.ToList();
+
+            if (widgets == null)
+                return NotFound();
+
+            return Ok(widgets.ToList());
         }
 
         // GET: api/Widgets/5
@@ -37,23 +41,37 @@ namespace OverwatchAPI.Controllers
         public async Task<ActionResult<Widget>> GetWidget(int id)
         {
             var widget = await _widgetRepository.GetByIdAsync(id);
-            return widget;
+
+            if (widget == null)
+                return NotFound();
+
+            return Ok(widget);
         }
 
         // PUT: api/Widgets/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutWidget(int id, Widget widget)
         {
+            if (widget == null)
+                return BadRequest();
+
             var result = await _widgetRepository.PutAsync(id, widget);
-            return NoContent();
+
+            if (result == 0)
+                return NotFound();
+
+            return Ok(result);
         }
 
         // POST: api/Widgets
         [HttpPost]
         public async Task<ActionResult<Widget>> PostWidget(Widget widget)
         {
+            if (widget == null)
+                return BadRequest();
+
             var addedWidget = await _widgetRepository.AddAsync(widget);
-            
+
             return Ok(addedWidget);
         }
 
@@ -62,6 +80,10 @@ namespace OverwatchAPI.Controllers
         public async Task<ActionResult<Widget>> DeleteWidget(int id)
         {
             var widget = await _widgetRepository.DeleteByIdAsync(id);
+
+            if (widget == 0)
+               return NotFound();
+
             return Ok(widget);
         }
     }
