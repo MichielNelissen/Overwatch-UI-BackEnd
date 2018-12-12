@@ -6,5 +6,7 @@
         public string Name { get; set; }
         public string Color { get; set; }
 
+        public int DashboardId { get; set; }
+        public Dashboard.Dashboard Dashboard { get; set; }
     }
 }
