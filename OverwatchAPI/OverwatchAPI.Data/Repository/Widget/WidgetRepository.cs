@@ -8,7 +8,7 @@ using OverwatchAPI.Domain.DomainClasses.Widgets;
 
 namespace OverwatchAPI.Data.Repository.Widget
 {
-    public class WidgetRepository : IGenericRepository<Domain.DomainClasses.Widgets.Widget>
+    public class WidgetRepository : IWidgetRepository
     {
         private readonly OverwatchContext _context;
 

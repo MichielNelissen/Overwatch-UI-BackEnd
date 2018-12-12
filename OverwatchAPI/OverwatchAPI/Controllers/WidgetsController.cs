@@ -15,13 +15,11 @@ namespace OverwatchAPI.Controllers
     [ApiController]
     public class WidgetsController : ControllerBase
     {
-        private readonly OverwatchContext _context;
-        private readonly WidgetRepository _widgetRepository;
+        private readonly IWidgetRepository _widgetRepository;
 
-        public WidgetsController()//OverwatchContext context)
+        public WidgetsController(IWidgetRepository widgetRepository)//OverwatchContext context)
         {
-            _context = new OverwatchContext();
-            _widgetRepository = new WidgetRepository(_context);
+            _widgetRepository = widgetRepository;
         }
 
         // GET: api/Widgets

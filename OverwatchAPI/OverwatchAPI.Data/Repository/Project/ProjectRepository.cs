@@ -5,7 +5,7 @@ using OverwatchAPI.Data.Context;
 
 namespace OverwatchAPI.Data.Repository.Project
 {
-    public class ProjectRepository : IGenericRepository<Domain.DomainClasses.Projects.Project>
+    public class ProjectRepository : IProjectRepository
     {
         private readonly OverwatchContext _context;
 
