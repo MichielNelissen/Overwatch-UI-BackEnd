@@ -12,7 +12,7 @@ namespace OverwatchAPI.Data.Context
     {
         public DbSet<Dashboard> Dashboards { get; set; }
         public DbSet<Project> Projects { get; set; }
-        public Widget Widgets { get; set; }
+        public DbSet<Widget> Widgets { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
