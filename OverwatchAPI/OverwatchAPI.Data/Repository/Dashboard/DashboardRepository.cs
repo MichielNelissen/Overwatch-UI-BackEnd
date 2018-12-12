@@ -7,7 +7,7 @@ using OverwatchAPI.Data.Context;
 
 namespace OverwatchAPI.Data.Repository.Dashboard
 {
-  public  class DashboardRepository: IGenericRepository<Domain.DomainClasses.Dashboard.Dashboard>
+  public  class DashboardRepository: IDashboardRepository
     {
         private readonly OverwatchContext _context;
 

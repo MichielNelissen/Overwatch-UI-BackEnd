@@ -9,6 +9,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using OverwatchAPI.Data.Context;
+using OverwatchAPI.Data.Repository.Widget;
+using OverwatchAPI.IoCBuilders;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace OverwatchAPI
@@ -34,6 +37,8 @@ namespace OverwatchAPI
             {
                 c.SwaggerDoc("v1", new Info { Title = "OverWatchAPI", Version = "v1" });
             });
+
+            IoCBuilder.RegesterDependencies(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
