@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using OverwatchAPI.Data.Context;
 using OverwatchAPI.Domain.DomainClasses.Widgets;
 
 namespace OverwatchAPI.Data.Repository.Widget
 {
-    public class WidgetRepository : IGenericRepository<Domain.DomainClasses.Widgets.Widget>
+    public class WidgetRepository : IWidgetRepository
     {
         private readonly OverwatchContext _context;
 
@@ -14,30 +16,28 @@ namespace OverwatchAPI.Data.Repository.Widget
         {
             _context = context;
         }
-
-        public void Add(Domain.DomainClasses.Widgets.Widget item)
+        public async Task<Domain.DomainClasses.Widgets.Widget> GetByIdAsync(int id)
         {
-            _context.Add(item);
-            _context.SaveChanges();
+            return await _context.Widgets.FindAsync(id);
         }
-
-        public void DeleteById(int id)
+        public async Task<int> DeleteByIdAsync(int id)
         {
-            var widgetToDelete = _context.Find<Domain.DomainClasses.Widgets.Widget>(id);
-            _context.Remove(widgetToDelete);
+            _context.Remove(GetByIdAsync(id).Result);
+            return await _context.SaveChangesAsync();
         }
-
-        public Domain.DomainClasses.Widgets.Widget GetById(int id)
+        public async Task<int> AddAsync(Domain.DomainClasses.Widgets.Widget item)
         {
-           return _context.Find<Domain.DomainClasses.Widgets.Widget>(id);
+            await _context.Widgets.AddAsync(item);
+            return await _context.SaveChangesAsync();
         }
-
-        public void Put(int id, Domain.DomainClasses.Widgets.Widget item)
+        public async Task<IEnumerable<Domain.DomainClasses.Widgets.Widget>> GetAllAsync()
         {
-            var widgetToUpdate  =_context.Find<Domain.DomainClasses.Widgets.Widget>(id);
-            _context.Update(widgetToUpdate);
-
-            _context.SaveChanges();
+            return await _context.Widgets.ToListAsync();
+        }
+        public async Task<int> PutAsync(int id, Domain.DomainClasses.Widgets.Widget item)
+        {
+            _context.Entry(item).State = EntityState.Modified;
+            return await _context.SaveChangesAsync();
         }
     }
 }

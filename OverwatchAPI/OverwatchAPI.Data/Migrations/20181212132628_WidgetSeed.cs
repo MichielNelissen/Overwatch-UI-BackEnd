@@ -7,6 +7,14 @@ namespace OverwatchAPI.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.InsertData(
+                table: "Dashboards",
+                columns: new[] { "Id", "Description", "ProjectId", "Name" },
+                values: new object[,]
+                {
+                    { 1,  "Dit is een testboard", 1, "Dash1"}
+                });
+
+            migrationBuilder.InsertData(
                 table: "Widgets",
                 columns: new[] { "Id", "Color", "DashboardId", "Name" },
                 values: new object[,]
