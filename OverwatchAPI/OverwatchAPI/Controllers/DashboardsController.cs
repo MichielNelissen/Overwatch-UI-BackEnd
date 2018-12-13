@@ -26,7 +26,7 @@ namespace OverwatchAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Dashboard>>> GetDashboards()
         {
-            var dashboards = _dashboardRepository.GetAllAsync();
+            var dashboards = await _dashboardRepository.GetAllAsync();
 
             if (dashboards == null)
                 return NotFound();
