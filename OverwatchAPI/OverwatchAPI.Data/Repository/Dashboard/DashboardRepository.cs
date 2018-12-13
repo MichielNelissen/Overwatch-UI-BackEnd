@@ -31,9 +31,9 @@ namespace OverwatchAPI.Data.Repository.Dashboard
             return await _context.Dashboards.ToListAsync();
         }
 
-        public async Task<Domain.DomainClasses.Dashboard.Dashboard> GetDashboardByProjectId(int projectId)
+        public async Task<IEnumerable<Domain.DomainClasses.Dashboard.Dashboard>> GetDashboardByProjectId(int projectId)
         {
-            var dashboard = await _context.Dashboards.Where(proj => proj.ProjectId == projectId).FirstAsync();
+            var dashboard = await _context.Dashboards.Where(proj => proj.ProjectId == projectId).ToListAsync();
 
             return dashboard;
         }

@@ -88,8 +88,8 @@ namespace OverwatchAPI.Controllers
 
             return Ok(result);
         }
-
-
+        
+        [HttpGet("project")]
         public async Task<ActionResult<Dashboard>> GetDashboardByProjectId(int projectId)
         {
             var result = await _dashboardRepository.GetDashboardByProjectId(projectId);
