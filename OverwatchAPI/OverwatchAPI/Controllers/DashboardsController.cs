@@ -90,5 +90,16 @@ namespace OverwatchAPI.Controllers
         }
 
 
+        public async Task<ActionResult<Dashboard>> GetDashboardByProjectId(int projectId)
+        {
+            var result = await _dashboardRepository.GetDashboardByProjectId(projectId);
+
+            if (result == null)
+                return NotFound();
+
+            return Ok(result);
+        }
+
+
     }
 }

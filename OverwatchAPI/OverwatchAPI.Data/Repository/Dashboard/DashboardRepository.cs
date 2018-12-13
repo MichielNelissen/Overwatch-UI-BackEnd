@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +29,13 @@ namespace OverwatchAPI.Data.Repository.Dashboard
         public async Task<IEnumerable<Domain.DomainClasses.Dashboard.Dashboard>> GetAllAsync()
         {
             return await _context.Dashboards.ToListAsync();
+        }
+
+        public async Task<Domain.DomainClasses.Dashboard.Dashboard> GetDashboardByProjectId(int projectId)
+        {
+            var dashboard = await _context.Dashboards.Where(proj => proj.ProjectId == projectId).FirstAsync();
+
+            return dashboard;
         }
 
         public async Task<int> AddAsync(Domain.DomainClasses.Dashboard.Dashboard item)
