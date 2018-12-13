@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using OverwatchAPI.Data.Context;
-using OverwatchAPI.Domain.DomainClasses.Widgets;
 
 namespace OverwatchAPI.Data.Repository.Widget
 {
@@ -27,6 +24,7 @@ namespace OverwatchAPI.Data.Repository.Widget
         }
         public async Task<int> AddAsync(Domain.DomainClasses.Widgets.Widget item)
         {
+            //uitbreiding: returnt vergelijking tussen elementen saved en saved elementen
             await _context.Widgets.AddAsync(item);
             return await _context.SaveChangesAsync();
         }
