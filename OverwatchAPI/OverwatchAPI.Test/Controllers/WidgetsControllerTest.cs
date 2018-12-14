@@ -34,27 +34,17 @@ namespace OverwatchAPI.Test.Controllers
         }
 
 
-
-
-        public IEnumerable<Widget> Build()
+        [Fact]
+        public async Task WidgetWillReturnNotFoundWhenNull()
         {
-           var listOfWidgets = new List<Widget>();
-
-            for (int i=1; i <= 10; i++)
-            {
-                var widget = new Widget
-                {
-                    Id = i,
-                    Name = Guid.NewGuid().ToString(),
-                    Color = Guid.NewGuid().ToString(),
-                    Dashboard = null,
-                    DashboardId = new Random().Next()
-                };
-
-                listOfWidgets.Add(widget);
-            }
-
-            return listOfWidgets;
+            //Arrange
+            _mockedRepository.Setup(x => x.GetAllAsync()).ReturnsAsync(() => null);
+            var myController = new WidgetsController(_mockedRepository.Object);
+            //Act
+            var result = await myController.GetWidgets();
+            //Assert
+            Assert.IsType<NotFoundResult>(result.Result);
         }
+       
     }
 }
