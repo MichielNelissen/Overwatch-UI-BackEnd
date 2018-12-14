@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using OverwatchAPI.Domain.DomainClasses.Dashboard;
 using OverwatchAPI.Domain.DomainClasses.Projects;
@@ -15,9 +16,15 @@ namespace OverwatchAPI.Data.Context
         public DbSet<Project> Projects { get; set; }
         public DbSet<Widget> Widgets { get; set; }
 
+        public OverwatchContext(DbContextOptions<OverwatchContext> options)
+            : base(options)
+        {
+            
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=OverwatchDb;Trusted_Connection=True;");
+            //optionsBuilder.
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
