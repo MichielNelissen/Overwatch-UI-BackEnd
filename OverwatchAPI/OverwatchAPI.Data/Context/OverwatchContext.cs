@@ -16,6 +16,9 @@ namespace OverwatchAPI.Data.Context
         public DbSet<Project> Projects { get; set; }
         public DbSet<Widget> Widgets { get; set; }
 
+        public OverwatchContext()
+        {
+        }
         public OverwatchContext(DbContextOptions<OverwatchContext> options)
             : base(options)
         {
@@ -23,8 +26,6 @@ namespace OverwatchAPI.Data.Context
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=OverwatchDb;Trusted_Connection=True;");
-            //optionsBuilder.
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
