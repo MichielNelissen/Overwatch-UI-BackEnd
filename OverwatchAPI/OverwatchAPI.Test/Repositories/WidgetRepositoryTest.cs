@@ -15,45 +15,50 @@ namespace OverwatchAPI.Test.Repositories
 {
     public class WidgetRepositoryTest
     {
-        private IWidgetRepository _widgetRepository;
-        private OverwatchContext _overwatchContext;
-        private IEnumerable<Widget> _widgets;
         
-        public WidgetRepositoryTest()
-        {
-            var options = new DbContextOptionsBuilder<OverwatchContext>()
-                .UseInMemoryDatabase(databaseName: "OverwatchDb")
-                .Options;
-            _overwatchContext = new OverwatchContext(options);
-            _widgets = WidgetBuilder.BuildWithId();
-            _widgetRepository = new WidgetRepository(_overwatchContext);
-        }
+        
 
         [Fact]
         public async void GetAllAsyncShouldReturnAllWidgets()
         {
-            foreach (var widget in _widgets)
+            var options = new DbContextOptionsBuilder<OverwatchContext>()
+                .UseInMemoryDatabase(databaseName: "OverwatchDbGetAllWidgetsAsync")
+                .Options;
+            using (var overwatchContext = new OverwatchContext(options))
             {
-                await _widgetRepository.AddAsync(widget);
+                var widgets = WidgetBuilder.BuildWithId();
+                var widgetRepository = new WidgetRepository(overwatchContext);
+
+                foreach (var widget in widgets)
+                {
+                    await widgetRepository.AddAsync(widget);
+                }
+                var result = await widgetRepository.GetAllAsync();
+                Assert.Equal(result.Count(), WidgetBuilder.BuildWithId().Count());
+                Assert.Equal(result, widgets);
             }
-            var result = await _widgetRepository.GetAllAsync();
-            Assert.Equal(result.Count(), WidgetBuilder.BuildWithId().Count());
-            Assert.Equal(result, _widgets);
         }
         [Fact]
         public async void GetByIdAsyncShouldReturnCorrectWidget()
         {
-            Widget widgetToFind = new Widget()
+            var options = new DbContextOptionsBuilder<OverwatchContext>()
+                .UseInMemoryDatabase(databaseName: "OverwatchDbGetWidgetByIdAsync")
+                .Options;
+            using (var overwatchContext = new OverwatchContext(options))
             {
-                Color = "Red",
-                Dashboard = null,
-                DashboardId = 1,
-                Id = 2,
-                Name = "A name"
-            };
-            await _widgetRepository.AddAsync(widgetToFind);
-            var result = await _widgetRepository.GetByIdAsync(widgetToFind.Id);
-            Assert.Equal(widgetToFind,result);
+                var widgetRepository = new WidgetRepository(overwatchContext);
+                Widget widgetToFind = new Widget()
+                {
+                    Color = "Red",
+                    Dashboard = null,
+                    DashboardId = 1,
+                    Id = 2,
+                    Name = "A name"
+                };
+                await widgetRepository.AddAsync(widgetToFind);
+                var result = await widgetRepository.GetByIdAsync(widgetToFind.Id);
+                Assert.Equal(widgetToFind, result);
+            }
         }
 
     }
