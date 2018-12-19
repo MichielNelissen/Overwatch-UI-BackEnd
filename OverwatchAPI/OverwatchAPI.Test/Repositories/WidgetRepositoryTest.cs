@@ -15,9 +15,6 @@ namespace OverwatchAPI.Test.Repositories
 {
     public class WidgetRepositoryTest
     {
-        
-        
-
         [Fact]
         public async void GetAllAsyncShouldReturnAllWidgets()
         {
@@ -61,5 +58,27 @@ namespace OverwatchAPI.Test.Repositories
             }
         }
 
+        [Fact]
+        public async void DeleteByIdAsyncShouldDeleteCorrectWidget()
+        {
+            var options = new DbContextOptionsBuilder<OverwatchContext>()
+                .UseInMemoryDatabase(databaseName: "OverwatchDbDeleteByIdAsync")
+                .Options;
+            using (var overwatchContext = new OverwatchContext(options))
+            {
+                var widgetRepository = new WidgetRepository(overwatchContext);
+                Widget widgetToDelete = new Widget()
+                {
+                    Color = "Red",
+                    Dashboard = null,
+                    DashboardId = 1,
+                    Id = 1,
+                    Name = "A name"
+                };
+                await widgetRepository.AddAsync(widgetToDelete);
+                var result = await widgetRepository.DeleteByIdAsync(widgetToDelete.Id);
+                Assert.Equal(1, result);
+            }
+        }
     }
 }
