@@ -16,14 +16,9 @@ namespace OverwatchAPI.Data.Context
         public DbSet<Project> Projects { get; set; }
         public DbSet<Widget> Widgets { get; set; }
 
-        public OverwatchContext()
-        {
-        }
+        public OverwatchContext(){}
         public OverwatchContext(DbContextOptions<OverwatchContext> options)
-            : base(options)
-        {
-            
-        }
+            : base(options){}
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
         }

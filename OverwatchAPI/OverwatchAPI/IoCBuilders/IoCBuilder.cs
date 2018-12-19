@@ -19,7 +19,7 @@ namespace OverwatchAPI.IoCBuilders
                 (options =>
             {
                 options.UseSqlServer(connectionString);
-                
+
             });
 
             services.AddTransient<OverwatchContext, OverwatchContext>();

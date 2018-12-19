@@ -99,5 +99,30 @@ namespace OverwatchAPI.Test.Repositories
                 Assert.Equal(1, result);
             }
         }
+
+        [Fact]
+        public async void PutAsyncShouldEditCorrectWidget()
+        {
+            var options = new DbContextOptionsBuilder<OverwatchContext>()
+                .UseInMemoryDatabase(databaseName: "OverwatchDbPutWidgetAsync")
+                .Options;
+            using (var overwatchContext = new OverwatchContext(options))
+            {
+                var widgets = WidgetBuilder.BuildWithId();
+                var widgetRepository = new WidgetRepository(overwatchContext);
+                foreach (var widget in widgets)
+                {
+                    await widgetRepository.AddAsync(widget);
+                }
+
+                Widget widgetToEdit = widgets.First();
+                widgetToEdit.Color = "Green";
+
+                var result = await widgetRepository.PutAsync(widgetToEdit.Id,widgetToEdit);
+                Assert.Equal(1, result);
+                var returnedWidget = widgetRepository.GetByIdAsync(widgetToEdit.Id).Result;
+                Assert.Equal(returnedWidget,widgetToEdit);
+            }
+        }
     }
 }
