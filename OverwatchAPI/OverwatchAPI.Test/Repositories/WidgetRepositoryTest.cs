@@ -15,62 +15,44 @@ namespace OverwatchAPI.Test.Repositories
 {
     public class WidgetRepositoryTest
     {
+        private IEnumerable<Widget> _widgets;
+        public WidgetRepositoryTest()
+        {
+            _widgets = WidgetBuilder.BuildWithId();
+        }
         [Fact]
         public async void AddAsyncShouldAddWidget()
         {
-            var options = new DbContextOptionsBuilder<OverwatchContext>()
-                .UseInMemoryDatabase(databaseName: "OverwatchDbAddWidgetsAsync")
-                .Options;
+            var options = OverwatchOptionBuilder.CreateBuilderWithName("OverwatchDbAddWidgetsAsync");
             using (var overwatchContext = new OverwatchContext(options))
             {
-                var widgets = WidgetBuilder.BuildWithId();
                 var widgetRepository = new WidgetRepository(overwatchContext);
-                foreach (var widget in widgets)
-                {
-                    await widgetRepository.AddAsync(widget);
-                }
-
+                await WidgetRepositoryFillerAsync(widgetRepository, _widgets);
                 var result = await widgetRepository.GetAllAsync();
-                Assert.Equal(result.Count(), WidgetBuilder.BuildWithId().Count());
+                Assert.Equal(result.Count(), _widgets.Count());
             }
         }
         [Fact]
         public async void GetAllAsyncShouldReturnAllWidgets()
         {
-            var options = new DbContextOptionsBuilder<OverwatchContext>()
-                .UseInMemoryDatabase(databaseName: "OverwatchDbGetAllWidgetsAsync")
-                .Options;
+            var options = OverwatchOptionBuilder.CreateBuilderWithName("OverwatchDbGetAllWidgetsAsync");
             using (var overwatchContext = new OverwatchContext(options))
             {
-                var widgets = WidgetBuilder.BuildWithId();
                 var widgetRepository = new WidgetRepository(overwatchContext);
-
-                foreach (var widget in widgets)
-                {
-                    await widgetRepository.AddAsync(widget);
-                }
+                await WidgetRepositoryFillerAsync(widgetRepository, _widgets);
                 var result = await widgetRepository.GetAllAsync();
                 Assert.Equal(result.Count(), WidgetBuilder.BuildWithId().Count());
-                Assert.Equal(result, widgets);
+                Assert.Equal(result, _widgets);
             }
         }
         [Fact]
         public async void GetByIdAsyncShouldReturnCorrectWidget()
         {
-            var options = new DbContextOptionsBuilder<OverwatchContext>()
-                .UseInMemoryDatabase(databaseName: "OverwatchDbGetWidgetByIdAsync")
-                .Options;
+            var options = OverwatchOptionBuilder.CreateBuilderWithName("OverwatchDbGetWidgetByIdAsync");
             using (var overwatchContext = new OverwatchContext(options))
             {
                 var widgetRepository = new WidgetRepository(overwatchContext);
-                Widget widgetToFind = new Widget()
-                {
-                    Color = "Red",
-                    Dashboard = null,
-                    DashboardId = 1,
-                    Id = 2,
-                    Name = "A name"
-                };
+                Widget widgetToFind = _widgets.First();
                 await widgetRepository.AddAsync(widgetToFind);
                 var result = await widgetRepository.GetByIdAsync(widgetToFind.Id);
                 Assert.Equal(widgetToFind, result);
@@ -80,20 +62,11 @@ namespace OverwatchAPI.Test.Repositories
         [Fact]
         public async void DeleteByIdAsyncShouldDeleteCorrectWidget()
         {
-            var options = new DbContextOptionsBuilder<OverwatchContext>()
-                .UseInMemoryDatabase(databaseName: "OverwatchDbDeleteByIdAsync")
-                .Options;
+            var options = OverwatchOptionBuilder.CreateBuilderWithName("OverwatchDbDeleteByIdAsync");
             using (var overwatchContext = new OverwatchContext(options))
             {
                 var widgetRepository = new WidgetRepository(overwatchContext);
-                Widget widgetToDelete = new Widget()
-                {
-                    Color = "Red",
-                    Dashboard = null,
-                    DashboardId = 1,
-                    Id = 1,
-                    Name = "A name"
-                };
+                Widget widgetToDelete = _widgets.First();
                 await widgetRepository.AddAsync(widgetToDelete);
                 var result = await widgetRepository.DeleteByIdAsync(widgetToDelete.Id);
                 Assert.Equal(1, result);
@@ -103,25 +76,25 @@ namespace OverwatchAPI.Test.Repositories
         [Fact]
         public async void PutAsyncShouldEditCorrectWidget()
         {
-            var options = new DbContextOptionsBuilder<OverwatchContext>()
-                .UseInMemoryDatabase(databaseName: "OverwatchDbPutWidgetAsync")
-                .Options;
+            var options = OverwatchOptionBuilder.CreateBuilderWithName("OverwatchDbPutWidgetAsync");
             using (var overwatchContext = new OverwatchContext(options))
             {
-                var widgets = WidgetBuilder.BuildWithId();
                 var widgetRepository = new WidgetRepository(overwatchContext);
-                foreach (var widget in widgets)
-                {
-                    await widgetRepository.AddAsync(widget);
-                }
-
-                Widget widgetToEdit = widgets.First();
+                await WidgetRepositoryFillerAsync(widgetRepository, _widgets);
+                Widget widgetToEdit = _widgets.First();
                 widgetToEdit.Color = "Green";
-
                 var result = await widgetRepository.PutAsync(widgetToEdit.Id,widgetToEdit);
                 Assert.Equal(1, result);
                 var returnedWidget = widgetRepository.GetByIdAsync(widgetToEdit.Id).Result;
                 Assert.Equal(returnedWidget,widgetToEdit);
+            }
+        }
+
+        private async Task WidgetRepositoryFillerAsync(WidgetRepository widgetRepository, IEnumerable<Widget> widgets)
+        {
+            foreach (var widget in widgets)
+            {
+                await widgetRepository.AddAsync(widget);
             }
         }
     }
