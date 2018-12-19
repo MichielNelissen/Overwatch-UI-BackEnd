@@ -16,6 +16,25 @@ namespace OverwatchAPI.Test.Repositories
     public class WidgetRepositoryTest
     {
         [Fact]
+        public async void AddAsyncShouldAddWidget()
+        {
+            var options = new DbContextOptionsBuilder<OverwatchContext>()
+                .UseInMemoryDatabase(databaseName: "OverwatchDbAddWidgetsAsync")
+                .Options;
+            using (var overwatchContext = new OverwatchContext(options))
+            {
+                var widgets = WidgetBuilder.BuildWithId();
+                var widgetRepository = new WidgetRepository(overwatchContext);
+                foreach (var widget in widgets)
+                {
+                    await widgetRepository.AddAsync(widget);
+                }
+
+                var result = await widgetRepository.GetAllAsync();
+                Assert.Equal(result.Count(), WidgetBuilder.BuildWithId().Count());
+            }
+        }
+        [Fact]
         public async void GetAllAsyncShouldReturnAllWidgets()
         {
             var options = new DbContextOptionsBuilder<OverwatchContext>()
