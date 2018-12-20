@@ -88,6 +88,19 @@ namespace OverwatchAPI.Test.Repositories
             }
         }
 
+        [Fact]
+        public async void GetDashboardByProjectIdShouldReturnCorrectDashboard()
+        {
+            var options = OverwatchOptionBuilder.CreateBuilderWithName("OverwatchDbGetDashboardByProjectIdAsync");
+            using (var overwatchContext = new OverwatchContext(options))
+            {
+                var dashboardRepository = new DashboardRepository(overwatchContext);
+                await DashboardRepositoryFillerAsync(dashboardRepository, _dashboards);
+                var result = await dashboardRepository.GetDashboardByProjectId(_dashboards.First().ProjectId);
+                Assert.Equal(_dashboards, result);
+            }
+        }
+
         private async Task DashboardRepositoryFillerAsync(DashboardRepository dashboardRepository, IEnumerable<Dashboard> dashboards)
         {
             foreach (var dashboard in dashboards)
