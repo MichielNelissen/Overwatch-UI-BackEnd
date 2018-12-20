@@ -45,7 +45,7 @@ namespace OverwatchAPI.Controllers
                 return NotFound();
             }
 
-            return project;
+            return Ok(project);
         }
 
         // PUT: api/Projects/5
@@ -73,7 +73,8 @@ namespace OverwatchAPI.Controllers
                 return BadRequest();
 
             var addedProject = await _projectRepository.AddAsync(project);
-
+            if (addedProject == 0)
+                return NotFound();
             return Ok(addedProject);
         }
 
