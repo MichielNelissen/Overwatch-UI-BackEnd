@@ -70,6 +70,9 @@ namespace OverwatchAPI.Controllers
 
             var addedWidget = await _widgetRepository.AddAsync(widget);
 
+            if (addedWidget == 0)
+                return NotFound();
+
             return Ok(addedWidget);
         }
 
