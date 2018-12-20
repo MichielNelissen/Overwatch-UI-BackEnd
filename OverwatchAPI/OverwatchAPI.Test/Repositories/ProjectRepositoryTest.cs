@@ -19,7 +19,7 @@ namespace OverwatchAPI.Test.Repositories
             _projects = ProjectBuilder.BuildWithId();
         }
         [Fact]
-        public async void AddAsyncShouldAddproject()
+        public async void AddAsyncShouldAddProject()
         {
             var options = OverwatchOptionBuilder.CreateBuilderWithName("OverwatchDbAddProjectsAsync");
             using (var overwatchContext = new OverwatchContext(options))
@@ -31,7 +31,7 @@ namespace OverwatchAPI.Test.Repositories
             }
         }
         [Fact]
-        public async void GetAllAsyncShouldReturnAllprojects()
+        public async void GetAllAsyncShouldReturnAllProjects()
         {
             var options = OverwatchOptionBuilder.CreateBuilderWithName("OverwatchDbGetAllProjectsAsync");
             using (var overwatchContext = new OverwatchContext(options))
@@ -44,7 +44,7 @@ namespace OverwatchAPI.Test.Repositories
             }
         }
         [Fact]
-        public async void GetByIdAsyncShouldReturnCorrectproject()
+        public async void GetByIdAsyncShouldReturnCorrectProject()
         {
             var options = OverwatchOptionBuilder.CreateBuilderWithName("OverwatchDbGetProjectByIdAsync");
             using (var overwatchContext = new OverwatchContext(options))
@@ -58,7 +58,7 @@ namespace OverwatchAPI.Test.Repositories
         }
 
         [Fact]
-        public async void DeleteByIdAsyncShouldDeleteCorrectproject()
+        public async void DeleteByIdAsyncShouldDeleteCorrectProject()
         {
             var options = OverwatchOptionBuilder.CreateBuilderWithName("OverwatchDbDeleteProjectByIdAsync");
             using (var overwatchContext = new OverwatchContext(options))
@@ -72,7 +72,7 @@ namespace OverwatchAPI.Test.Repositories
         }
 
         [Fact]
-        public async void PutAsyncShouldEditCorrectproject()
+        public async void PutAsyncShouldEditCorrectProject()
         {
             var options = OverwatchOptionBuilder.CreateBuilderWithName("OverwatchDbPutProjectAsync");
             using (var overwatchContext = new OverwatchContext(options))
