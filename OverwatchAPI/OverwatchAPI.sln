@@ -11,7 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OverwatchAPI.Data", "Overwa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MigrationConsole", "MigrationConsole\MigrationConsole.csproj", "{FCC8BC75-B947-4A76-BD9A-1F8642141373}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OverwatchAPI.Test", "OverwatchAPI.Test\OverwatchAPI.Test.csproj", "{7D56D598-3043-4623-BD70-2A8E33504B95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OverwatchAPI.Test", "OverwatchAPI.Test\OverwatchAPI.Test.csproj", "{7D56D598-3043-4623-BD70-2A8E33504B95}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{07F46D83-6D2B-4CB8-B972-3BA77261C68F}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+		Dockerfile = Dockerfile
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

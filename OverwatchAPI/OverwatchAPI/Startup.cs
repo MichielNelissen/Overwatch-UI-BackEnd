@@ -30,7 +30,6 @@ namespace OverwatchAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.RegisterDependencies();
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             //Swagger API Doc

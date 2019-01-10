@@ -14,7 +14,7 @@ namespace OverwatchAPI.IoCBuilders
     {
         public static void RegisterDependencies(this IServiceCollection services)
         {
-            string connectionString = @"Server=(localdb)\\MSSQLLocalDB;Database=OverwatchDb;Trusted_Connection=True;";
+            string connectionString = @"Server=db;Database=master;User=sa;Password=Your_password123;";
             services.AddDbContext<OverwatchContext>
                 (options =>
             {
