@@ -45,7 +45,7 @@ namespace OverwatchAPI.Controllers
                 return NotFound();
             }
 
-            return dashboard;
+            return Ok(dashboard);
         }
 
         // PUT: api/Dashboards/5
@@ -73,7 +73,8 @@ namespace OverwatchAPI.Controllers
                 return BadRequest();
 
             var added = await _dashboardRepository.AddAsync(dashboard);
-
+            if (added == 0)
+                return NotFound();
             return Ok(added);
         }
 
@@ -84,6 +85,17 @@ namespace OverwatchAPI.Controllers
             var result = await _dashboardRepository.DeleteByIdAsync(id);
 
             if (result == 0)
+                return NotFound();
+
+            return Ok(result);
+        }
+        
+        [HttpGet("project")]
+        public async Task<ActionResult<Dashboard>> GetDashboardByProjectId(int projectId)
+        {
+            var result = await _dashboardRepository.GetDashboardByProjectId(projectId);
+
+            if (result == null)
                 return NotFound();
 
             return Ok(result);

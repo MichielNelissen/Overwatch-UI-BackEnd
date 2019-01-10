@@ -3,11 +3,9 @@ WORKDIR /app
 EXPOSE 80
 
 FROM microsoft/dotnet:2.2-sdk AS build
-WORKDIR /src
-COPY ["OverwatchAPI/OverwatchAPI.csproj", "OverwatchAPI/"]
-RUN dotnet restore "OverwatchAPI/OverwatchAPI.csproj"
 COPY . .
-WORKDIR "/src/OverwatchAPI"
+RUN dotnet restore
+WORKDIR "/OverwatchAPI"
 RUN dotnet build "OverwatchAPI.csproj" -c Release -o /app
 
 FROM build AS publish
