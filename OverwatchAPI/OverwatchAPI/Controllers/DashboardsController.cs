@@ -45,7 +45,7 @@ namespace OverwatchAPI.Controllers
                 return NotFound();
             }
 
-            return dashboard;
+            return Ok(dashboard);
         }
 
         // PUT: api/Dashboards/5
@@ -73,7 +73,8 @@ namespace OverwatchAPI.Controllers
                 return BadRequest();
 
             var added = await _dashboardRepository.AddAsync(dashboard);
-
+            if (added == 0)
+                return NotFound();
             return Ok(added);
         }
 

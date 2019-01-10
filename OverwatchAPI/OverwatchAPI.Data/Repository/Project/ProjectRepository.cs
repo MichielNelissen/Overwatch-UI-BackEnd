@@ -21,7 +21,7 @@ namespace OverwatchAPI.Data.Repository.Project
 
         public async Task<int> DeleteByIdAsync(int id)
         {
-            _context.Remove(GetByIdAsync(id));
+            _context.Remove(GetByIdAsync(id).Result);
             return await _context.SaveChangesAsync();
         }
 

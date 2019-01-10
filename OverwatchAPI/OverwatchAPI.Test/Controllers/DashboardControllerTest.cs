@@ -48,9 +48,9 @@ namespace OverwatchAPI.Test.Controllers
         [Fact]
         public async void GetDashboardsByIdWillReturnOkResult()
         {
-            _mockedRepository.Setup(x => x.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(_dashboards.First);
+            _mockedRepository.Setup(x => x.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(_dashboards.First());
             var myController = new DashboardsController(_mockedRepository.Object);
-            var actionResult = await myController.GetDashboards();
+            var actionResult = await myController.GetDashboard(It.IsAny<int>());
             OkObjectResult result = actionResult.Result as OkObjectResult;
             Assert.NotNull(result);
             Assert.IsType<OkObjectResult>(result);
@@ -118,7 +118,6 @@ namespace OverwatchAPI.Test.Controllers
         [Fact]
         public async void PostDashboardsWillReturnOkResultWhenEverythingIsOk()
         {
-
             _mockedRepository.Setup(x => x.AddAsync(It.IsAny<Dashboard>())).ReturnsAsync(1);
             var myController = new DashboardsController(_mockedRepository.Object);
             var actionResult = await myController.PostDashboard(_dashboards.First());
@@ -143,6 +142,27 @@ namespace OverwatchAPI.Test.Controllers
             var actionResult = await myController.DeleteDashboard(It.IsAny<int>());
             Assert.NotNull(actionResult);
             Assert.IsType<OkObjectResult>(actionResult.Result);
+        }
+
+        [Fact]
+        public async void GetDashboardByProjectIdWillReturnNotFoundForInvalidId()
+        {
+            _mockedRepository.Setup(x => x.GetDashboardByProjectId(It.IsAny<int>())).ReturnsAsync(() => null);
+            var myController = new DashboardsController(_mockedRepository.Object);
+            var actionResult = await myController.GetDashboardByProjectId(It.IsAny<int>());
+            Assert.NotNull(actionResult);
+            Assert.IsType<NotFoundResult>(actionResult.Result);
+        }
+        [Fact]
+        public async void GetDashboardByProjectIdWillReturnOkResultForValidId()
+        {
+            _mockedRepository.Setup(x => x.GetDashboardByProjectId(It.IsAny<int>())).ReturnsAsync(_dashboards);
+            var myController = new DashboardsController(_mockedRepository.Object);
+            var actionResult = await myController.GetDashboardByProjectId(It.IsAny<int>());
+            var result = actionResult.Result as OkObjectResult;
+            Assert.NotNull(result);
+            Assert.IsType<OkObjectResult>(result);
+            Assert.Equal(_dashboards, result.Value);
         }
     }
 }
