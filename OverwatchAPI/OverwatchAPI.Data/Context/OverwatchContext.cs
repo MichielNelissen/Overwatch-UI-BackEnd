@@ -32,7 +32,7 @@ namespace OverwatchAPI.Data.Context
             List<Widget> widgetList = new List<Widget>();
             for (int i = 1; i < 6; i++)
             {
-                widgetList.Add(new Widget() { Id = i, Color = "Red" + i, Name = "Demo1" + i, DashboardId = 1 });
+                widgetList.Add(new Widget() { Id = i, Color = "Red", Name = "Demo1" + i, DashboardId = 1 });
             }
             Project project = new Project() { Id = 1, Name = "Overwatch", Url = "an url" };
 
